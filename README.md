@@ -1,92 +1,49 @@
-<<<<<<< HEAD
-# Flutter Multi-Screen App — Assignment Guide
+# Flutter Project – Multi-Screen App
 
-## Project Structure
+**Student:** Ayesha Khalid  
+**ID:** 12345  
 
-```
+---
+
+## 📱 Project Overview
+This Flutter project demonstrates a multi-screen application with registration, login, dashboard, and detail screens.  
+The app runs without errors and follows best practices in Flutter development.
+
+---
+
+## 📂 Project Structure
 lib/
-├── main.dart                        ← App entry point & theme
-├── models/
-│   ├── gender.dart                  ← Gender enum
-│   ├── subject.dart                 ← Subject model + data
-│   └── user.dart                    ← UserModel
-├── controllers/
-│   └── auth_controller.dart         ← All business logic (register/login/logout)
-├── validators/
-│   └── app_validator.dart           ← All form validation rules
-├── widgets/
-│   └── custom_text_field.dart       ← Reusable input field widget
-└── screens/
-    ├── registration_screen.dart     ← Screen 1
-    ├── login_screen.dart            ← Screen 2
-    ├── dashboard_screen.dart        ← Screen 3
-    └── detail_screen.dart           ← Screen 4
-```
+├── main.dart              ← App entry point & theme  
+├── models/                ← Data models (User, Subject, Gender)  
+├── controllers/           ← Business logic (AuthController)  
+├── validators/            ← Form validation rules  
+├── widgets/               ← Reusable UI components  
+└── screens/               ← App screens (Registration, Login, Dashboard, Detail)  
 
 ---
 
-## How to Run
+## 📸 Screenshots
 
-1. Make sure Flutter is installed: https://flutter.dev/docs/get-started/install
-2. Open a terminal in the project folder
-3. Run:
+### Registration Screen
+![Registration Screen](screenshots/1.png)
 
-```bash
-flutter pub get          # installs dependencies
-flutter run              # launches the app
-```
+### Verificatio Screen
+![Verification Screen](screenshots/2.png)
 
----
+### Gender Selection
+![Gender Selection](screenshots/3.png)
 
-## App Flow
+### Login Screen
+![Login Screen](screenshots/4.png)
 
-```
-Registration Screen
-       ↓  (on success)
-  Login Screen
-       ↓  (on success)
- Dashboard Screen
-       ↓  (tap subject)
-  Detail Screen
-       ↓  (back button)
- Dashboard Screen
-       ↓  (logout)
-  Login Screen
-```
+### Dashboard
+![Dashbard](screenshots/5.png)
+![Subject Details](screenshots/6.png)
+  
 
 ---
 
-## Assignment Requirements Checklist
-
-| Requirement | File | Status |
-|---|---|---|
-| Registration form (name, email, gender, password) | registration_screen.dart | ✅ |
-| Email validation | app_validator.dart | ✅ |
-| Password rules (6 chars, uppercase, special char) | app_validator.dart | ✅ |
-| Confirm password matching | app_validator.dart | ✅ |
-| Gender dropdown (enum-based) | gender.dart | ✅ |
-| Login with email + password | login_screen.dart | ✅ |
-| Password show/hide toggle | login_screen.dart | ✅ |
-| Remember Me checkbox | login_screen.dart | ✅ |
-| Dashboard with user name + avatar | dashboard_screen.dart | ✅ |
-| Subject list (MAD, SRE, MIS) | subject.dart | ✅ |
-| Tap gesture → Detail screen | dashboard_screen.dart | ✅ |
-| Detail screen (header, banner, desc, schedule) | detail_screen.dart | ✅ |
-| Logout → back to Login | dashboard_screen.dart | ✅ |
-| Custom Validator class | app_validator.dart | ✅ |
-| Enum implementation | gender.dart | ✅ |
-| Controller layer (separate from UI) | auth_controller.dart | ✅ |
-
----
-
-## Key Concepts Used (for your understanding)
-
-- **StatefulWidget vs StatelessWidget** — Screens that change (forms) use StatefulWidget; read-only screens use StatelessWidget
-- **GlobalKey<FormState>** — Validates all form fields at once with `_formKey.currentState!.validate()`
-- **TextEditingController** — Reads the text from each field
-- **Navigator.pushReplacement / pushAndRemoveUntil** — Controls navigation history
-- **Enum** — Gender values are defined as an enum for type safety
-- **Separation of concerns** — UI, logic, and validation are in separate files
-=======
-# flutter_project
->>>>>>> 5e2b6779d86ca89703e5ce0cca3870584866cc08
+## 🛠 How to Run
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ayeshakhalid25/flutter_project.git
