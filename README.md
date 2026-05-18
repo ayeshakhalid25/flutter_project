@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Flutter Multi-Screen App — Assignment Guide
 
 ## Project Structure
@@ -86,3 +87,6 @@ Registration Screen
 - **Navigator.pushReplacement / pushAndRemoveUntil** — Controls navigation history
 - **Enum** — Gender values are defined as an enum for type safety
 - **Separation of concerns** — UI, logic, and validation are in separate files
+=======
+# flutter_project
+>>>>>>> 5e2b6779d86ca89703e5ce0cca3870584866cc08
