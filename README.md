@@ -47,16 +47,16 @@ https://jsonplaceholder.typicode.com/guide
 
 
 ### manage courses
-![manage courses](screenshots/manage courses.png)
+![manage courses](screenshots/7.png)
 
 ### edit course
-![edit Course](screenshots/edit course.png)
+![edit Course](screenshots/8.png)
 
 
 ### Course added
-![Course added](screenshots/course added.png)
-![add course](screenshots/add course.png)
-![add course](screenshots/add course1.png)
+![Course added](screenshots/9.png)
+![add course](screenshots/10.png)
+![add course](screenshots/11.png)
 
 ---
 
