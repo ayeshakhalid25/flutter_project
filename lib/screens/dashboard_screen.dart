@@ -1,219 +1,165 @@
-// ============================================================
-// screens/dashboard_screen.dart
-//
-// Screen 3 — Dashboard
-// Shows: user name + avatar, list of subjects, logout button
-// Tapping a subject → Detail screen
-// ============================================================
+// lib/screens/dashboard_screen.dart
 
 import 'package:flutter/material.dart';
-import '../controllers/auth_controller.dart';
-import '../models/subject.dart';
-import 'detail_screen.dart';
-import 'login_screen.dart';
+import 'course_list_screen.dart'; // needed for MaterialPageRoute fix
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
-
-  // ----------------------------------------------------------
-  // Logout — clear auth state and go back to Login
-  // ----------------------------------------------------------
-  void _logout(BuildContext context) {
-    AuthController.logout();
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (_) => const LoginScreen()),
-      (route) => false,
-    );
-  }
+  // Subjects list — same as your old dashboard
+  static const List<Map<String, String>> _subjects = [
+    {
+      'name': 'Mobile App Development',
+      'schedule': 'Mon & Wed  |  10:00 AM – 11:30 AM  |  Room 301',
+      'color': '3F51B5',
+    },
+    {
+      'name': 'Software Re-engineering',
+      'schedule': 'Tue & Thu  |  12:00 PM – 1:30 PM  |  Room 204',
+      'color': '4CAF50',
+    },
+    {
+      'name': 'MIS',
+      'schedule': 'Fri  |  9:00 AM – 12:00 PM  |  Room 105',
+      'color': '9C27B0',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
-    // Get the logged-in user from the controller
-    final user = AuthController.currentUser!;
+    // Get the logged in user's email passed from LoginScreen
+    final String userEmail =
+        ModalRoute.of(context)!.settings.arguments as String? ?? 'User';
+
+    // Get first letter of email for avatar
+    final String avatarLetter = userEmail[0].toUpperCase();
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        title: const Text('Dashboard'),
-        automaticallyImplyLeading: false, // no back button
+        title: Text('Dashboard'),
+        automaticallyImplyLeading: false,
         actions: [
-          // Logout button in the top-right corner
-          TextButton.icon(
-            onPressed: () => _logout(context),
-            icon: const Icon(Icons.logout, color: Colors.white),
-            label: const Text('Logout',
-                style: TextStyle(color: Colors.white)),
+          IconButton(
+            icon: Icon(Icons.logout),
+            tooltip: 'Logout',
+            onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+      body: Padding(
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            // ── User info card ───────────────────────────────
+            // ── User info card (same as your old dashboard) ──
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(16),
+                color: Colors.indigo.shade400,
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 children: [
-                  // Avatar placeholder (circle with initials)
                   CircleAvatar(
                     radius: 30,
-                    backgroundColor: Colors.white.withOpacity(0.3),
-                    child: Text(
-                      // Show first letter of the name
-                      user.firstName[0].toUpperCase(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    backgroundColor: Colors.indigo.shade200,
+                    child: Text(avatarLetter,
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Hello, ${user.firstName}! 👋',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        user.email,
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.85),
-                          fontSize: 13,
-                        ),
-                      ),
+                      Text('Hello, ${userEmail.split('@')[0]}! 👋',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold)),
+                      Text(userEmail,
+                          style:
+                              TextStyle(color: Colors.white70, fontSize: 13)),
                     ],
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 28),
+            SizedBox(height: 24),
 
-            // ── Section title ────────────────────────────────
-            const Text(
-              'Your Subjects',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Tap a subject to view details',
-              style: TextStyle(
-                color: Colors.grey.shade500,
-                fontSize: 13,
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // ── Subject list ─────────────────────────────────
-            // Build one card per subject using a loop
-            ...appSubjects.map((subject) => _SubjectCard(subject: subject)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ------------------------------------------------------------------
-// Subject card widget
-// Tapping it navigates to the Detail screen with the subject data.
-// ------------------------------------------------------------------
-class _SubjectCard extends StatelessWidget {
-  final Subject subject;
-  const _SubjectCard({required this.subject});
-
-  // Parse the hex color string into a Flutter Color
-  Color get _color {
-    final hex = subject.bannerColor.replaceAll('#', '');
-    return Color(int.parse('FF$hex', radix: 16));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // Tap gesture → navigate to Detail screen
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => DetailScreen(subject: subject),
-        ),
-      ),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            // Colored left accent bar
-            Container(
-              width: 6,
-              height: 80,
-              decoration: BoxDecoration(
-                color: _color,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(14),
-                  bottomLeft: Radius.circular(14),
+            // ── Manage Courses button (NEW) ──
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                icon: Icon(Icons.library_books),
+                label: Text('Manage Courses (CRUD)'),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(14),
+                  backgroundColor: Colors.indigo,
+                  foregroundColor: Colors.white,
+                ),
+                // ✅ Using push + MaterialPageRoute so screen stays alive
+                // This means edits are preserved when you come back
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CourseListScreen()),
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+
+            SizedBox(height: 24),
+
+            // ── Your Subjects (same as your old dashboard) ──
+            Text('Your Subjects',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Tap a subject to view details',
+                style: TextStyle(color: Colors.grey, fontSize: 13)),
+            SizedBox(height: 12),
+
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      subject.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+              child: ListView.builder(
+                itemCount: _subjects.length,
+                itemBuilder: (context, index) {
+                  final subject = _subjects[index];
+                  final color =
+                      Color(int.parse('FF${subject['color']}', radix: 16));
+
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4,
+                            offset: Offset(0, 2))
+                      ],
+                    ),
+                    child: ListTile(
+                      leading: Container(
+                        width: 4,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: color,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      title: Text(subject['name']!,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(subject['schedule']!,
+                          style: TextStyle(fontSize: 12)),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        '/detail',
+                        arguments: subject,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subject.schedule,
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
-            ),
-            // Chevron arrow
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: Icon(Icons.chevron_right, color: Colors.grey.shade400),
             ),
           ],
         ),

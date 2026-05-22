@@ -1,12 +1,10 @@
-// ============================================================
-// models/gender.dart
-// Enum for gender selection (as required by assignment)
-// ============================================================
+// lib/models/gender.dart
 
 enum Gender {
   male,
   female,
-  preferNotToSay;
+  preferNotToSay,
+  other;
 
   // Returns a readable label for each enum value
   String get label {
@@ -17,6 +15,8 @@ enum Gender {
         return 'Female';
       case Gender.preferNotToSay:
         return 'Prefer not to say';
+      case Gender.other: // ✅ FIXED: added missing case
+        return 'Other';
     }
   }
 }

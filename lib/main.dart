@@ -1,50 +1,37 @@
-// ============================================================
-// main.dart — App entry point
-// ============================================================
+// lib/main.dart
 
 import 'package:flutter/material.dart';
 import 'screens/registration_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/dashboard_screen.dart';
+import 'screens/course_list_screen.dart';
+import 'screens/course_form_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Student App',
-      debugShowCheckedModeBanner: false,   // hides the red "DEBUG" ribbon
-
-      // ── App-wide theme ─────────────────────────────────────
+      title: 'Flutter CRUD App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // Primary color used throughout the app
-        primarySwatch: Colors.indigo,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: true,
-
-        // Default AppBar style
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.indigo,
-          foregroundColor: Colors.white,
-          elevation: 0,
-        ),
-
-        // Default ElevatedButton style
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.indigo,
-            foregroundColor: Colors.white,
-          ),
+        primarySwatch: Colors.blue,
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         ),
       ),
-
-      // ── Starting screen ────────────────────────────────────
-      // App starts at the Registration screen.
-      // After registering, the user is sent to Login.
-      home: const RegistrationScreen(),
+      initialRoute: '/register',
+      routes: {
+        '/register':    (context) => RegisterScreen(),    // ✅ FIXED: was RegistrationScreen()
+        '/login':       (context) => LoginScreen(),
+        '/dashboard':   (context) => DashboardScreen(),
+        '/courses':     (context) => CourseListScreen(),
+        '/course-form': (context) => CourseFormScreen(),
+      },
     );
   }
 }

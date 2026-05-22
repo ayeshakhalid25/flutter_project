@@ -32,7 +32,6 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             // ── Banner image placeholder ─────────────────────
             // In a real app this would be an Image.network or Image.asset
             Container(
@@ -67,7 +66,6 @@ class DetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   // ── Subject header ───────────────────────────
                   Text(
                     subject.name,
