@@ -122,6 +122,6 @@ flutter run
 
 
 ### App Screens
-![offline save](screenshots/mad 3.png)
-![seacrh option](screenshots/mad 4.png)
+![offline save](screenshots/mad3.png)
+![seacrh option](screenshots/mad4.png)
 
