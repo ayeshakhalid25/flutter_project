@@ -120,8 +120,8 @@ flutter run
 
 ## Screenshots
 
-Add screenshots of the running app here:
 
-- `screenshots/courses.png` - course list
-- `screenshots/add_course.png` - add / edit form
-- `screenshots/offline.png` - course list loaded with no internet (from cache)
+### App Screens
+![offline save](screenshots/mad 3.png)
+![seacrh option](screenshots/mad 4.png)
+
