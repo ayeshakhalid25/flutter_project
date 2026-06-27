@@ -40,8 +40,7 @@ lib/
 ### Dashboard
 ![Dashbard](screenshots/5.png)
 ![Subject Details](screenshots/6.png)
-![Dashbard](screenshots/add course.png)
-![Subject Details](screenshots/add course1.png)
+
 
   
 
